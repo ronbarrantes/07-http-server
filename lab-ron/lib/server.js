@@ -43,6 +43,7 @@ const app = http.createServer((req, res) => {
         'Content-Type': 'text/plain',
       });
       res.write(`resource ${req.url.pathname} not found!`);
+      console.log(res); // testing
       res.end();
     })
     .catch(err => {
