@@ -31,7 +31,7 @@ const app = http.createServer((req, res) => {
         res.writeHead(200, {
           'Content-Type': 'application/json',
         });
-        console.log('hello');
+        console.log(res);// what's in here?
         res.write(JSON.stringify(req.body));
         res.end();
         return; // break out of the (req, res) => {} callback
