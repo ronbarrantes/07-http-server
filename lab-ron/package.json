@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint .",
     "start": "node index.js",
     "watch": "nodemon index.js",
+    "test-watch": "jest --watch -i",
     "test": "jest -i -coverage"
   },
   "keywords": [],
