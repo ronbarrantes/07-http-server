@@ -8,8 +8,8 @@ const requestParser = require('./request-parser.js');
 // functionality
 const app = http.createServer((req, res) => {
   //console.log('got a request!')
-  //console.log('req.method', req.method)
-  //console.log('req.headers', req.headers)
+  // console.log('req.method', req.method)
+  // console.log('req.headers', req.headers)
 
   requestParser(req)
     .then(req => {
@@ -22,7 +22,7 @@ const app = http.createServer((req, res) => {
                   <html>
                   <head> <title> cool beans </title> </head>
                   <body> <h1> hello world ${Math.random()}</h1> </body>
-                  /html>`);
+                  </html>`);
         res.end();
         return; // break out of the (req, res) => {} callback
       }
@@ -31,6 +31,7 @@ const app = http.createServer((req, res) => {
         res.writeHead(200, {
           'Content-Type': 'application/json',
         });
+        console.log('hello');
         res.write(JSON.stringify(req.body));
         res.end();
         return; // break out of the (req, res) => {} callback
