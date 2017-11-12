@@ -16,6 +16,7 @@ module.exports = (req) => {
     req.on('data', (buffer) => {
       text += buffer.toString();
     });
+    
     req.on('end', () => {
       try {
         req.body = JSON.parse(text);

@@ -11,17 +11,27 @@ const app = http.createServer((req, res) => {
         res.writeHead(200, {
           'Content-Type': 'text/html',
         });
-        res.write(`<!DOCTYPE html>
-                  <html>
-                  <head> <title> cool beans </title> </head>
-                  <body> <h1> hello world ${Math.random()}</h1> </body>
-                  </html>`);
+        res.write(`
+        <!DOCTYPE html><html>
+        <head><title>Welcome To Cowsay</title></head><body><header>
+        <h1>CowSay</h1>
+        <nav><ul>
+        <li><a href="/">home</a></li>
+        <li><a href="/cowsay">cowsay</a></li>
+        </ul></nav></header><main>
+        <p>Welcome to cowsay, navigate click on the </p></main></body></html>
+        `);
         res.end();
-        return; 
+        return;
       }
+      if (req.method === 'GET' &&
+        req.url.pathname === '/cowsay') {
 
-
-      if (req.method === 'GET' && req.url.pathname === '/cowsay' && req.url.query.text === true) {
+        let message = '';
+        if (req.url.query.text)
+          message = req.url.query.text;
+        else
+          message = 'I need something to say!!';
         res.writeHead(200, { 'Content-Type': 'text/html' });
         res.write(`
         <!DOCTYPE html>
@@ -31,9 +41,11 @@ const app = http.createServer((req, res) => {
           </head>
           <body>
             <h1> cowsay </h1>
-            <pre></pre>
-              <!-- cowsay.say({text: req.query.text}) -->
+            <p>Make the cow say</p>
+            <pre>
+               ${cowsay.say({ text: message })} 
             </pre>
+            <p>at the end of the URL type <b>/cowsay?text=<i>your message here</i></b></p>
           </body>
         </html>`);
 
@@ -41,63 +53,13 @@ const app = http.createServer((req, res) => {
         res.end();
         return;
       }
-
-
-
-      if (req.method === 'GET' && req.url.pathname === '/cowsay') {
-        res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.write(`
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <title> cowsay </title>  
-          </head>
-          <body>
-           <header>
-             <nav>
-               <ul> 
-                 <li><a href="/cowsay">cowsay</a></li>
-               </ul>
-             </nav>
-           <header>
-           <main>
-             <!-- project description -->
-           </main>
-          </body>
-        </html>`);
-
-        // console.log('hello');
-
+      if (req.method === 'POST' && req.url.pathname === '/api/cowsay') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.write(JSON.stringify({ message: cowsay.say(req.body) }));
         res.end();
         return;
       }
-
-
-
-
-
-
-
-
-
-
-
-
-      if (req.method === 'POST' && req.url.pathname === '/echo') {
-        res.writeHead(200, {
-          'Content-Type': 'application/json',
-        });
-        console.log(res);// what's in here?
-        res.write(JSON.stringify(req.body));
-        res.end();
-        return; // break out of the (req, res) => {} callback
-      }
-
-      // 404 for any request to a non route
-      // respond to the client
-      res.writeHead(404, {
-        'Content-Type': 'text/plain',
-      });
+      res.writeHead(404, { 'Content-Type': 'text/plain' });
       res.write(`resource ${req.url.pathname} not found!`);
       console.log(res); // testing
       res.end();
@@ -110,7 +72,6 @@ const app = http.createServer((req, res) => {
       res.write('bad request');
       res.end();
     });
-  // register routes
 });
 
 // export interface
